@@ -1,28 +1,24 @@
-from ahmad_sec.rules.network_config import analyze_network_config
+"""Network security observations from manifest and packaged NSC resources."""
 
-"""Evidence-led Android manifest network-security observations."""
+from ahmad_sec.rules.network_config import analyze_network_config
 
 ANDROID_NS = "http://schemas.android.com/apk/res/android"
 
 
 def analyze_network(apk):
-    """Report explicit cleartext opt-in without asserting exploitable traffic.
-
-    A Network Security Config can determine effective cleartext behavior on
-    Android 7.0+; its referenced XML is not yet parsed by this analyzer.
-    """
+    """Separate static manifest observations from resource-defined policies."""
     root = apk.get_android_manifest_xml()
     application = root.find("application") if root is not None else None
     if application is None:
         return []
 
-    flag = application.get(f"{{{ANDROID_NS}}}usesCleartextTraffic")
-    if flag != "true":
-        return []
-
     config = application.get(f"{{{ANDROID_NS}}}networkSecurityConfig")
     if config:
         return analyze_network_config(apk, config)
+
+    flag = application.get(f"{{{ANDROID_NS}}}usesCleartextTraffic")
+    if flag != "true":
+        return []
 
     return [{
         "id": "AST-SEC-001",
