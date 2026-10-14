@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 import pytest
-from typer.testing import CliRunner
+from typer.main import get_command
 
 from ahmad_sec.cli import app
 from ahmad_sec.reporting.evidence import build_evidence_report, write_evidence_report
@@ -77,7 +77,7 @@ def test_reject_symlink_output(tmp_path):
 
 
 def test_cli_exposes_json_out():
-    runner = CliRunner()
-    result = runner.invoke(app, ["apk", "scan", "--help"])
-    assert result.exit_code == 0
-    assert "--json-out" in result.output
+    # Check the registered Click option instead of terminal-width-dependent
+    # Rich help output, which can shorten labels under GitHub Actions.
+    scan = get_command(app).commands["apk"].commands["scan"]
+    assert any("--json-out" in getattr(param, "opts", []) for param in scan.params)
