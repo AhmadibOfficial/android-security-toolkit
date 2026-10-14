@@ -1,3 +1,5 @@
+from ahmad_sec.rules.network_config import analyze_network_config
+
 """Evidence-led Android manifest network-security observations."""
 
 ANDROID_NS = "http://schemas.android.com/apk/res/android"
@@ -20,23 +22,7 @@ def analyze_network(apk):
 
     config = application.get(f"{{{ANDROID_NS}}}networkSecurityConfig")
     if config:
-        return [{
-            "id": "AST-SEC-001-CONFIG",
-            "severity": "INFO",
-            "confidence": "HIGH",
-            "title": "Cleartext setting requires Network Security Config review",
-            "cwe": "CWE-319",
-            "evidence": (
-                'android:usesCleartextTraffic="true"; '
-                f'android:networkSecurityConfig="{config}"'
-            ),
-            "assessment": (
-                "On Android 7.0+, Network Security Config can control the "
-                "effective cleartext policy and the manifest flag may be "
-                "ignored. Parse the referenced config and verify traffic "
-                "before describing this as an exploitable weakness."
-            ),
-        }]
+        return analyze_network_config(apk, config)
 
     return [{
         "id": "AST-SEC-001",
