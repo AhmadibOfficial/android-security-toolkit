@@ -98,8 +98,8 @@ def _review(reference, reason):
     return [{
         "id": "AST-SEC-001-CONFIG",
         "severity": "INFO",
-        "confidence": "LOW",
-        "title": "Network Security Config requires review",
+        "confidence": "HIGH",
+        "title": "Cleartext setting requires Network Security Config review",
         "evidence": f"android:networkSecurityConfig={reference}",
         "assessment": "Parse the referenced config before determining effective policy. " + reason,
     }]
