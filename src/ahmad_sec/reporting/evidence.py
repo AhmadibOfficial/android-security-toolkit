@@ -106,17 +106,16 @@ def build_evidence_report(metadata, findings):
 
 def write_evidence_report(path, report):
     """Write stable JSON with restrictive permissions on POSIX systems."""
-    from os import chmod
+    import os
     from pathlib import Path
 
     output = Path(path)
     output.parent.mkdir(parents=True, exist_ok=True)
     if output.is_symlink():
         raise ValueError("Refusing to write evidence to a symbolic link")
-    if output.exists():
-        raise FileExistsError("Refusing to overwrite an existing evidence report")
-    # Exclusive create ensures an existing report is never silently replaced.
-    with output.open("x", encoding="utf-8") as handle:
+    # O_EXCL prevents overwrites, including an existing symlink target.
+    # Mode 0600 is applied at creation rather than after content is written.
+    descriptor = os.open(output, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
         json.dump(report, handle, indent=2, sort_keys=True, ensure_ascii=False)
         handle.write("\n")
-    chmod(output, 0o600)
