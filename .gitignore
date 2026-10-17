@@ -11,3 +11,11 @@ build/
 examples/apks/*.apk
 *.aab
 *.apks
+
+# Never publish local analysis output
+/evidence*.json
+/reports/
+/research-private/
+*.sarif
+.coverage
+coverage.xml
