@@ -9,13 +9,17 @@ from ahmad_sec.rules.manifest import analyze_manifest
 from ahmad_sec.rules.components import analyze_components
 from ahmad_sec.rules.network import analyze_network
 from ahmad_sec.core.finding import normalize_finding
+from ahmad_sec.reporting.evidence import build_evidence_report, write_evidence_report
 
 app = typer.Typer(help="Android APK security analysis commands")
 console = Console()
 
 
 @app.command()
-def scan(target: Path = typer.Argument(..., help="Path to a local APK")):
+def scan(
+    target: Path = typer.Argument(..., help="Path to a local APK"),
+    json_out: Path | None = typer.Option(None, "--json-out", help="Write redacted JSON evidence (new file only)"),
+):
     """Run static APK reconnaissance and evidence-led security checks."""
     if not target.is_file() or target.suffix.lower() != ".apk":
         console.print("Invalid APK file path.", markup=False)
@@ -42,6 +46,15 @@ def scan(target: Path = typer.Argument(..., help="Path to a local APK")):
                 item[field] = raw[field]
         findings.append(item)
     findings.sort(key=lambda item: (-item["risk_score"], item["title"], item.get("component") or ""))
+
+    if json_out is not None:
+        report = build_evidence_report(result["metadata"], findings)
+        try:
+            write_evidence_report(json_out, report)
+        except (OSError, ValueError) as exc:
+            console.print(f"Evidence export failed: {type(exc).__name__}", markup=False)
+            raise typer.Exit(code=2) from exc
+        console.print(f"Evidence JSON saved: {json_out}", markup=False)
 
     console.print("AHMAD-IB ANDROID SECURITY LAB", style="bold cyan")
     table = Table(title="APK Metadata")
