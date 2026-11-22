@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="referrer" content="no-referrer">
+  <title>AHMAD-IB // Android Security Toolkit</title>
+  <link rel="stylesheet" href="/workspace.css">
+  <script src="/workspace.js" defer></script>
+</head>
+<body>
+  <div class="workstation">
+    <header class="application-bar">
+      <div class="product-name"><span class="product-symbol">A<span>/</span>S</span><span>AHMAD-IB <b>ANDROID SECURITY TOOLKIT</b></span></div>
+      <nav class="menu" aria-label="Application sections"><a href="#source-panel">Source</a><a href="#graph-panel">Topology</a><a href="#events-panel">Console</a><a href="#results-panel">Findings</a></nav>
+      <div class="header-actions">
+        <span id="session-indicator" class="session-indicator"><i></i> LOCAL / NO REPORT</span>
+        <input type="file" id="report-file" accept=".json,application/json" hidden>
+        <button type="button" id="import-button" class="toolbar-button primary">Import evidence</button>
+        <button type="button" id="clear-button" class="toolbar-button" disabled>Clear</button>
+      </div>
+    </header>
+    <div class="context-bar" role="status">
+      <span class="context-heading">WORKSPACE <i>/</i> ANDROID APPLICATION ANALYSIS</span>
+      <span class="context-item">TARGET: <strong id="context-target">NOT LOADED</strong></span>
+      <span class="context-item">SHA-256: <strong id="context-sha">—</strong></span>
+      <span class="context-item">OBSERVATIONS: <strong id="context-count">—</strong></span>
+      <span class="context-privacy">OFFLINE REPORT REVIEW <span class="live-dot"></span></span>
+    </div>
+
+    <main class="ide-grid" aria-label="Security analysis workstation">
+      <section class="pane pane-source" id="source-panel" aria-label="Normalized manifest and evidence editor">
+        <div class="pane-titlebar"><div class="pane-title"><span class="pane-icon code-icon">{ }</span><strong>01</strong> STATIC ANALYSIS <span class="filename" id="source-filename">untitled.apk</span></div><div class="pane-controls"><span class="pane-type">SOURCE INSPECTOR</span><span class="window-indicators"><i></i><i></i><i></i></span></div></div>
+        <div class="tab-strip" role="tablist" aria-label="Source views">
+          <button type="button" role="tab" aria-selected="true" class="tab active" data-source-view="manifest">manifest.json</button>
+          <button type="button" role="tab" aria-selected="false" class="tab" data-source-view="target">target.json</button>
+          <button type="button" role="tab" aria-selected="false" class="tab" data-source-view="findings">findings.json</button>
+          <button type="button" role="tab" aria-selected="false" class="tab" data-source-view="selected">selected.json</button>
+        </div>
+        <div class="source-layout">
+          <aside class="file-explorer" aria-label="Report navigator">
+            <div class="explorer-heading">EXPLORER</div>
+            <div class="folder-line"><span class="caret">⌄</span> <span class="folder-icon">▣</span> ASSESSMENT</div>
+            <button class="tree-file active" type="button" data-source-view="manifest"><span>◈</span> manifest.json</button>
+            <button class="tree-file" type="button" data-source-view="target"><span>◈</span> target.json</button>
+            <button class="tree-file" type="button" data-source-view="findings"><span>◈</span> findings.json</button>
+            <button class="tree-file" type="button" data-source-view="selected"><span>◈</span> selected.json</button>
+            <div class="explorer-heading files-bottom">SCOPE</div>
+            <div class="tree-note" id="source-scope">No report imported</div>
+          </aside>
+          <div class="editor-shell">
+            <div class="editor-breadcrumb" id="editor-breadcrumb">assessment / manifest.json <span>READ ONLY</span></div>
+            <div class="editor-scroll" aria-label="Selected report JSON"><div id="source-view" class="code-lines"><div class="code-placeholder">No analysis loaded. Import an authorized ahmad-sec evidence report to inspect data in these panes.</div></div></div>
+          </div>
+          <aside class="side-editor" aria-label="Related analysis summary">
+            <div class="side-editor-heading">assessment.info <span>READ ONLY</span></div>
+            <div class="side-editor-lines" id="analysis-summary">No report imported.</div>
+          </aside>
+        </div>
+        <div class="pane-statusline"><span>JSON • UTF-8</span><span>SAFE LOCAL INSPECTION</span><span id="source-schema">SCHEMA —</span></div>
+      </section>
+
+      <section class="pane pane-graph" id="graph-panel" aria-label="Application attack surface topology">
+        <div class="pane-titlebar"><div class="pane-title"><span class="pane-icon topology-icon">◎</span><strong>02</strong> ATTACK SURFACE <span class="filename">relationships.graph</span></div><div class="pane-controls"><span class="pane-type">TOPOLOGY VIEW</span><span class="window-indicators"><i></i><i></i><i></i></span></div></div>
+        <div class="tab-strip"><span class="tab static active">Manifest graph</span><span class="tab static">Evidence relationships</span><span class="graph-readout" id="graph-readout">0 NODES / 0 EDGES</span></div>
+        <div class="topology-layout">
+          <aside class="graph-explorer" aria-label="Topology node groups"><div class="explorer-heading">GRAPH LAYERS</div><div class="layer-item"><span class="layer-dot root"></span> Target <strong id="layer-target">0</strong></div><div class="layer-item"><span class="layer-dot component"></span> Components <strong id="layer-components">0</strong></div><div class="layer-item"><span class="layer-dot observation"></span> Observations <strong id="layer-observations">0</strong></div><div class="graph-guide">Connections represent actual declarations in the imported manifest. They do not prove exploitation.</div></aside>
+          <div class="graph-viewport" id="graph-container"><div class="graph-empty"><div class="graph-ghost">◎</div><strong>NO TOPOLOGY LOADED</strong><span>Import an evidence report to build the component graph.</span></div></div>
+        </div>
+        <div class="pane-statusline"><span>ASSOCIATION GRAPH</span><span id="graph-selection">NO SELECTION</span><span>VALIDATION REQUIRED</span></div>
+      </section>
+
+      <section class="pane pane-events" id="events-panel" aria-label="Analysis log console">
+        <div class="pane-titlebar"><div class="pane-title"><span class="pane-icon logs-icon">≡</span><strong>03</strong> ANALYSIS CONSOLE <span class="filename">evidence.log</span></div><div class="pane-controls"><span class="pane-type">REPORT OUTPUT</span><span class="window-indicators"><i></i><i></i><i></i></span></div></div>
+        <div class="tab-strip"><span class="tab static active">Observations</span><span class="tab static">Import events</span><span class="tab-strip-end" id="event-count">0 ENTRIES</span></div>
+        <div class="console-layout"><div class="console-gutter" id="console-gutter">01</div><div class="console-rows" id="event-feed" role="log" aria-label="Analysis observations"><div class="console-placeholder">[INFO] Local workspace ready. No analysis logs loaded.<div>To scan: ahmad-sec apk scan authorized.apk --json-out evidence.json</div><div>Import the generated evidence.json file to populate this console.</div></div></div></div>
+        <div class="pane-statusline"><span>REPORT-BASED OUTPUT • NOT LIVE DEVICE LOGS</span><span id="console-footnote">0 OBSERVATIONS</span></div>
+      </section>
+
+      <section class="pane pane-results" id="results-panel" aria-label="Finding and evidence review">
+        <div class="pane-titlebar"><div class="pane-title"><span class="pane-icon results-icon">▣</span><strong>04</strong> SECURITY FINDINGS <span class="filename">triage.panel</span></div><div class="pane-controls"><span class="pane-type">EVIDENCE VIEW</span><span class="window-indicators"><i></i><i></i><i></i></span></div></div>
+        <div class="tab-strip"><span class="tab static active">Findings</span><span class="tab static">Evidence inspector</span><span id="finding-count" class="tab-strip-end">0 RESULTS</span></div>
+        <div class="results-toolbar">
+          <label class="sr-only" for="finding-search">Search finding titles or components</label><input id="finding-search" type="search" placeholder="Filter findings or components..." disabled>
+          <label class="sr-only" for="severity-filter">Severity</label><select id="severity-filter" disabled><option value="ALL">ALL SEVERITIES</option><option value="CRITICAL">CRITICAL</option><option value="HIGH">HIGH</option><option value="MEDIUM">MEDIUM</option><option value="LOW">LOW</option><option value="INFO">INFO</option></select>
+        </div>
+        <div class="results-layout"><div class="findings-list" id="findings-list" aria-label="Imported security findings"><div class="results-empty">No findings imported.</div></div><aside class="evidence-inspector" id="evidence"><div class="inspector-heading">EVIDENCE INSPECTOR</div><div id="evidence-content" class="evidence-body"><div class="results-empty">Select an observation to inspect details.</div></div></aside></div>
+        <div class="pane-statusline"><span id="severity-summary">CRIT 0 / HIGH 0 / MED 0 / LOW 0 / INFO 0</span><span>HUMAN TRIAGE REQUIRED</span></div>
+      </section>
+    </main>
+
+    <footer class="global-status"><span class="global-brand">AHMAD-IB / SECURITY ENGINEERING WORKSPACE</span><span id="notice" role="status" aria-live="polite">Import exported JSON from an authorized APK scan.</span><span class="privacy-status">● LOCAL SYSTEM / NO CLOUD SYNC</span></footer>
+  </div>
+</body>
+</html>

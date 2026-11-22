@@ -44,6 +44,9 @@ jobs:
           python -m compileall -q src tests
           ruff check --select E4,E7,E9,F63,F7,F82 src tests
 
+      - name: Validate research console JavaScript syntax
+        run: node --check src/ahmad_sec/assets/workspace.js
+
       - name: Run automated tests
         run: python -m pytest -q
 
