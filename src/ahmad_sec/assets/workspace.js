@@ -62,6 +62,18 @@ function loadReport(raw) {
       !Array.isArray(raw.findings) || raw.findings.length > LIMIT_FINDINGS) {
     throw new Error("Unsupported report. Choose an ahmad-sec evidence JSON file (schema 1.0, up to 5,000 findings).");
   }
+  if (raw.surface !== undefined) {
+    const surface = raw.surface;
+    if (!surface || typeof surface !== "object" ||
+        !Array.isArray(surface.nodes) || surface.nodes.length > 8000 ||
+        !Array.isArray(surface.edges) || surface.edges.length > 15000 ||
+        !Array.isArray(surface.components) || surface.components.length > 1000 ||
+        surface.components.some(c => !c || typeof c.name !== "string" ||
+          typeof c.kind !== "string" || !Array.isArray(c.filters) ||
+          c.filters.some(f => !f || !Array.isArray(f.data) || !Array.isArray(f.actions)))) {
+      throw new Error("Invalid or oversized manifest surface graph in report.");
+    }
+  }
   report = raw;
   findings = raw.findings.filter(item => item && typeof item === "object" && !Array.isArray(item))
     .map(normalizeFinding).sort(compareFindings);
@@ -71,7 +83,7 @@ function loadReport(raw) {
   const elevated = findings.filter(item => ["HIGH", "CRITICAL"].includes(item.severity)).length;
   setText("stat-total", findings.length.toLocaleString());
   setText("stat-high", elevated.toLocaleString());
-  setText("stat-components", (raw.surface && raw.surface.summary ? raw.surface.summary.components : components.size).toLocaleString());
+  setText("stat-components", (raw.surface && raw.surface.components ? raw.surface.components.length : components.size).toLocaleString());
   setText("stat-status", findings.length ? "REVIEW REQUIRED" : raw.surface ? "SURFACE READY" : "NO OBSERVATIONS");
   setText("target-package", asText(raw.target.package, 500) || "Unknown package");
   setText("target-filename", asText(raw.target.filename, 500) || "Unnamed artifact");
