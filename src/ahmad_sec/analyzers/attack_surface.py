@@ -13,6 +13,8 @@ MAX_COMPONENTS = 1000
 MAX_FILTERS = 40
 MAX_DATA_ITEMS = 30
 MAX_STRING = 500
+MAX_NODES = 8000
+MAX_EDGES = 15000
 
 
 def _attr(element, key):
@@ -80,12 +82,24 @@ def build_surface_map(manifest, *, package_name=None, target_sdk=None):
     truncated = False
 
     def node(key, kind, label):
-        nodes.setdefault(key, {"id": key, "type": kind, "label": str(label)[:MAX_STRING]})
+        nonlocal truncated
+        if key in nodes:
+            return
+        if len(nodes) >= MAX_NODES:
+            truncated = True
+            return
+        nodes[key] = {"id": key, "type": kind, "label": str(label)[:MAX_STRING]}
 
     def edge(source, target, relation):
+        nonlocal truncated
         key = (source, target, relation)
-        edges.setdefault(key, {"source": source, "target": target,
-                               "relation": relation, "evidence_source": "AndroidManifest.xml"})
+        if key in edges:
+            return
+        if source not in nodes or target not in nodes or len(edges) >= MAX_EDGES:
+            truncated = True
+            return
+        edges[key] = {"source": source, "target": target,
+                      "relation": relation, "evidence_source": "AndroidManifest.xml"}
 
     app_id = "app:" + package
     node(app_id, "app", package)
@@ -171,7 +185,7 @@ def build_surface_map(manifest, *, package_name=None, target_sdk=None):
         "edges": sorted(edges.values(), key=lambda e: (e["source"], e["relation"], e["target"])),
         "summary": {
             "components": len(components),
-            "explicitly_exported_enabled": sum(item["enabled"] and item["exported"] is True for item in components),
+            "exported_enabled": sum(item["enabled"] and item["exported"] is True for item in components),
             "unknown_export_state": sum(item["exported"] is None for item in components),
             "deep_link_handlers": sum(any(data.get("scheme") or data.get("host") for f in item["filters"] for data in f["data"]) for item in components),
             "by_kind": dict(sorted(Counter(item["kind"] for item in components).items())),
