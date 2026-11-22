@@ -30,7 +30,7 @@
     </div>
 
     <main class="ide-grid" aria-label="Security analysis workstation">
-      <section class="pane pane-source" id="source-panel" aria-label="Static analysis source inspector">
+      <section class="pane pane-source" id="source-panel" aria-label="Normalized manifest and evidence editor">
         <div class="pane-titlebar"><div class="pane-title"><span class="pane-icon code-icon">{ }</span><strong>01</strong> STATIC ANALYSIS <span class="filename" id="source-filename">untitled.apk</span></div><div class="pane-controls"><span class="pane-type">SOURCE INSPECTOR</span><span class="window-indicators"><i></i><i></i><i></i></span></div></div>
         <div class="tab-strip" role="tablist" aria-label="Source views">
           <button type="button" role="tab" aria-selected="true" class="tab active" data-source-view="manifest">manifest.json</button>
@@ -53,6 +53,10 @@
             <div class="editor-breadcrumb" id="editor-breadcrumb">assessment / manifest.json <span>READ ONLY</span></div>
             <div class="editor-scroll" aria-label="Selected report JSON"><div id="source-view" class="code-lines"><div class="code-placeholder">No analysis loaded. Import an authorized ahmad-sec evidence report to inspect data in these panes.</div></div></div>
           </div>
+          <aside class="side-editor" aria-label="Related analysis summary">
+            <div class="side-editor-heading">assessment.info <span>READ ONLY</span></div>
+            <div class="side-editor-lines" id="analysis-summary">No report imported.</div>
+          </aside>
         </div>
         <div class="pane-statusline"><span>JSON • UTF-8</span><span>SAFE LOCAL INSPECTION</span><span id="source-schema">SCHEMA —</span></div>
       </section>
