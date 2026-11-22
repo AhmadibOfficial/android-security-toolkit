@@ -33,7 +33,8 @@
       <section class="pane pane-source" id="source-panel" aria-label="Static analysis source inspector">
         <div class="pane-titlebar"><div class="pane-title"><span class="pane-icon code-icon">{ }</span><strong>01</strong> STATIC ANALYSIS <span class="filename" id="source-filename">untitled.apk</span></div><div class="pane-controls"><span class="pane-type">SOURCE INSPECTOR</span><span class="window-indicators"><i></i><i></i><i></i></span></div></div>
         <div class="tab-strip" role="tablist" aria-label="Source views">
-          <button type="button" role="tab" aria-selected="true" class="tab active" data-source-view="target">target.json</button>
+          <button type="button" role="tab" aria-selected="true" class="tab active" data-source-view="manifest">manifest.json</button>
+          <button type="button" role="tab" aria-selected="false" class="tab" data-source-view="target">target.json</button>
           <button type="button" role="tab" aria-selected="false" class="tab" data-source-view="findings">findings.json</button>
           <button type="button" role="tab" aria-selected="false" class="tab" data-source-view="selected">selected.json</button>
         </div>
@@ -41,15 +42,16 @@
           <aside class="file-explorer" aria-label="Report navigator">
             <div class="explorer-heading">EXPLORER</div>
             <div class="folder-line"><span class="caret">⌄</span> <span class="folder-icon">▣</span> ASSESSMENT</div>
-            <button class="tree-file active" type="button" data-source-view="target"><span>◈</span> target.json</button>
+            <button class="tree-file active" type="button" data-source-view="manifest"><span>◈</span> manifest.json</button>
+            <button class="tree-file" type="button" data-source-view="target"><span>◈</span> target.json</button>
             <button class="tree-file" type="button" data-source-view="findings"><span>◈</span> findings.json</button>
             <button class="tree-file" type="button" data-source-view="selected"><span>◈</span> selected.json</button>
             <div class="explorer-heading files-bottom">SCOPE</div>
             <div class="tree-note" id="source-scope">No report imported</div>
           </aside>
           <div class="editor-shell">
-            <div class="editor-breadcrumb" id="editor-breadcrumb">assessment / target.json <span>READ ONLY</span></div>
-            <div class="editor-scroll" aria-label="Selected report JSON"><div id="source-view" class="code-lines"><div class="code-placeholder">No evidence loaded. Import an ahmad-sec JSON report to inspect real analysis data.</div></div></div>
+            <div class="editor-breadcrumb" id="editor-breadcrumb">assessment / manifest.json <span>READ ONLY</span></div>
+            <div class="editor-scroll" aria-label="Selected report JSON"><div id="source-view" class="code-lines"><div class="code-placeholder">No analysis loaded. Import an authorized ahmad-sec evidence report to inspect data in these panes.</div></div></div>
           </div>
         </div>
         <div class="pane-statusline"><span>JSON • UTF-8</span><span>SAFE LOCAL INSPECTION</span><span id="source-schema">SCHEMA —</span></div>
@@ -57,9 +59,9 @@
 
       <section class="pane pane-graph" id="graph-panel" aria-label="Application attack surface topology">
         <div class="pane-titlebar"><div class="pane-title"><span class="pane-icon topology-icon">◎</span><strong>02</strong> ATTACK SURFACE <span class="filename">relationships.graph</span></div><div class="pane-controls"><span class="pane-type">TOPOLOGY VIEW</span><span class="window-indicators"><i></i><i></i><i></i></span></div></div>
-        <div class="tab-strip"><span class="tab static active">Component graph</span><span class="tab static">Reported associations</span><span class="graph-readout" id="graph-readout">0 NODES / 0 EDGES</span></div>
+        <div class="tab-strip"><span class="tab static active">Manifest graph</span><span class="tab static">Evidence relationships</span><span class="graph-readout" id="graph-readout">0 NODES / 0 EDGES</span></div>
         <div class="topology-layout">
-          <aside class="graph-explorer" aria-label="Topology node groups"><div class="explorer-heading">GRAPH LAYERS</div><div class="layer-item"><span class="layer-dot root"></span> Target <strong id="layer-target">0</strong></div><div class="layer-item"><span class="layer-dot component"></span> Components <strong id="layer-components">0</strong></div><div class="layer-item"><span class="layer-dot observation"></span> Observations <strong id="layer-observations">0</strong></div><div class="graph-guide">Node connections show associations recorded in imported evidence, not confirmed attack paths.</div></aside>
+          <aside class="graph-explorer" aria-label="Topology node groups"><div class="explorer-heading">GRAPH LAYERS</div><div class="layer-item"><span class="layer-dot root"></span> Target <strong id="layer-target">0</strong></div><div class="layer-item"><span class="layer-dot component"></span> Components <strong id="layer-components">0</strong></div><div class="layer-item"><span class="layer-dot observation"></span> Observations <strong id="layer-observations">0</strong></div><div class="graph-guide">Connections represent actual declarations in the imported manifest. They do not prove exploitation.</div></aside>
           <div class="graph-viewport" id="graph-container"><div class="graph-empty"><div class="graph-ghost">◎</div><strong>NO TOPOLOGY LOADED</strong><span>Import an evidence report to build the component graph.</span></div></div>
         </div>
         <div class="pane-statusline"><span>ASSOCIATION GRAPH</span><span id="graph-selection">NO SELECTION</span><span>VALIDATION REQUIRED</span></div>
