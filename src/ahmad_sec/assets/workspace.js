@@ -207,7 +207,7 @@ function drawLine(svgRoot, from, to, color) {
   svgRoot.append(svg("line", {x1:from.x,y1:from.y,x2:to.x,y2:to.y,stroke:color,"stroke-width":1.2,"stroke-opacity":0.48}));
 }
 function drawNode(svgRoot, point, radius, color, label, onSelect) {
-  const group = svg("g", {class:"graph-node",tabindex:"0",role:"button","aria-label":label});
+  const group = svg("g", onSelect ? {class:"graph-node",tabindex:"0",role:"button","aria-label":label} : {class:"graph-node","aria-label":label});
   const circle = svg("circle", {cx:point.x,cy:point.y,r:radius,fill:"#132738",stroke:color,"stroke-width":2});
   const title = svg("title",{});
   title.textContent = label;
