@@ -11,3 +11,37 @@
 @media(max-width:780px){.app-shell{display:block}.sidebar{position:static;height:auto;padding:14px 16px;display:block}.brand{margin:0 0 13px}.sidebar nav{flex-direction:row;overflow-x:auto}.nav-item{white-space:nowrap;padding:9px}.side-label,.side-bottom{display:none}.main-content{padding:0 13px 24px}.topbar{height:50px}.breadcrumb{font-size:9px}.intro{padding:22px 0}.workspace-grid{grid-template-columns:1fr}.panel{min-height:320px}.footer{display:block}.footer span{display:block;margin-top:6px}}
 @media(max-width:450px){.metrics{gap:8px}.metric{padding:12px;min-height:95px}.metric strong{font-size:23px}.chip{display:none}.filters{flex-direction:column}.filters select{width:100%}.metadata div,.evidence-row{grid-template-columns:90px minmax(0,1fr)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* Compact four-pane operator workbench: functional surfaces, not a landing page. */
+@media (min-width:781px){
+  .app-shell{grid-template-columns:70px minmax(0,1fr)}
+  .sidebar{padding:14px 7px}
+  .brand{justify-content:center;margin-bottom:28px}
+  .brand>span:last-child{display:none}
+  .side-label,.side-bottom{display:none}
+  .nav-item{font-size:0;justify-content:center;padding:13px 8px}
+  .nav-item span{font-size:19px}
+  .topbar{height:43px}
+  .intro{padding:12px 0 9px;flex-direction:row;align-items:center}
+  .intro h1{font-size:19px;margin:0;letter-spacing:-.3px}
+  .intro p,.eyebrow{display:none}
+  .metrics{display:none}
+  .notice{margin-bottom:9px;padding:8px 11px;font-size:11px}
+  .workspace-grid{gap:7px}
+  .panel{height:max(265px, calc((100vh - 155px)/2));min-height:0;overflow:auto;padding:12px;border-radius:5px}
+  .panel-heading{margin-bottom:10px}
+  .panel-heading h2{font-size:13px;letter-spacing:.25px}
+  .graph-container{height:calc(100% - 102px);min-height:165px}
+  .footer{display:none}
+  .main-content{padding:0 14px 12px}
+}
+.manifest-console{font:11px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;max-height:220px;overflow:auto;background:#070f18;color:#8de6ae;border:1px solid #213748;border-radius:5px;padding:11px;margin:11px 0}
+.metadata div{padding:6px 0}
+.findings-list{max-height:calc(100% - 100px)}
+.finding{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.evidence-body{max-height:calc(100% - 76px)}
+.evidence-row dd{color:#a2efc9}
+@media (max-width:780px){
+  .panel{height:auto;overflow:visible}
+  .manifest-console{max-height:280px}
+}
