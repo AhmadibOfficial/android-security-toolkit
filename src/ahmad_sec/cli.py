@@ -25,5 +25,20 @@ def info():
     console.print("Research • Analysis • Evidence • Reporting")
 
 
+@app.command()
+def workspace(
+    port: int = typer.Option(8765, "--port", min=1, max=65535, help="Loopback listening port"),
+    open_browser: bool = typer.Option(True, "--open-browser/--no-browser", help="Open local workspace"),
+):
+    """Open the local graphical interface for inspecting exported evidence."""
+    from ahmad_sec.workspace import serve
+
+    try:
+        serve(port=port, open_browser=open_browser)
+    except OSError as exc:
+        console.print(f"Cannot start workspace: {type(exc).__name__}", markup=False)
+        raise typer.Exit(code=2) from exc
+
+
 if __name__ == "__main__":
     app()
