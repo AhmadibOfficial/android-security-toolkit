@@ -107,7 +107,7 @@ def surface(
     console.print("MANIFEST ATTACK SURFACE | DECLARATIONS, NOT EXPLOITS", style="bold cyan")
     console.print(
         f"Components: {graph['summary']['components']} | "
-        f"Exported and enabled: {graph['summary']['explicitly_exported_enabled']} | "
+        f"Exported and enabled: {graph['summary']['exported_enabled']} | "
         f"Deep-link handlers: {graph['summary']['deep_link_handlers']} | "
         f"Unresolved export states: {graph['summary']['unknown_export_state']}",
         markup=False,
