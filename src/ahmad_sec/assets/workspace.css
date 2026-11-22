@@ -216,3 +216,11 @@ button.tab:hover { background:#263139; }
 .summary-warn { color:#f2ab6e; }
 @media(max-width:1050px) { .side-editor { width:30%;min-width:115px; } }
 @media(max-width:770px) { .side-editor { display:none; } }
+
+/* Screenshot composition: four tools occupy virtually the entire desktop. */
+@media(min-width:701px) {
+  .application-bar { height:25px;gap:8px; }
+  .context-bar,.menu { display:none; }
+  .ide-grid { gap:3px;padding:3px; }
+  .global-status { height:18px; }
+}
