@@ -26,6 +26,28 @@ ahmad-sec apk scan /path/to/your/authorized.apk --json-out evidence.json
 The CLI reports observations and potential weaknesses with evidence; it does
 not automatically prove exploitability.
 
+## Map the Android attack surface
+
+The toolkit now inventories actual manifest declarations: exported activities,
+services, broadcast receivers, content providers, permissions, intent actions,
+and deep-link schemes or hosts.
+
+```bash
+ahmad-sec apk surface /path/to/your/authorized.apk --json-out surface.json
+```
+
+A standard APK scan now also includes a typed manifest-derived graph in the
+exported evidence report:
+
+```bash
+ahmad-sec apk scan /path/to/your/authorized.apk --json-out evidence.json
+```
+
+Open either JSON file in the research workspace. Selecting a component node
+reveals its manifest attributes and intent filters. **Graph connections mean
+declarations, not verified exploitability.** Unknown export states and
+incomplete/truncated inventories are reported explicitly.
+
 ## Open the graphical workspace
 
 ```bash
@@ -35,9 +57,10 @@ ahmad-sec workspace
 Open `http://127.0.0.1:8765/` if a browser does not open automatically. Use
 the **Import evidence JSON** control to select the report just created.
 
-The workspace displays real reported metrics, APK identity and metadata,
-an interactive component/observation association graph, severity filters,
-searchable findings, and a detailed evidence inspector. The interface adapts
+The compact four-pane workspace displays normalized manifest declarations,
+a real manifest-derived component/permission/intent graph, security observation
+streams, and a detailed component/evidence inspector. Severity filters and
+search operate on actual detector output. The interface adapts
 to desktop and mobile browser widths, but the Python CLI must run on your
 computer.
 
