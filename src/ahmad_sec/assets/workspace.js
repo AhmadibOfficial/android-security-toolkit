@@ -132,7 +132,64 @@ function appendCodeTokens(container, line) {
   }
   if (last < line.length) container.append(document.createTextNode(line.slice(last)));
 }
+function renderSecondaryEditor() {
+  const container = $("analysis-summary");
+  container.replaceChildren();
+  if (!report) {
+    container.append(textElement("div", "// No local evidence loaded", "summary-comment"),
+      textElement("div", "Use Import evidence to inspect a local report.", "summary-value"));
+    return;
+  }
+  const rows = [
+    {kind:"comment",value:"// APK ASSESSMENT CONTEXT"},
+    {key:"package",value:safe(report.target.package,200)},
+    {key:"artifact",value:safe(report.target.filename,200)},
+    {key:"target_sdk",value:safe(report.target.target_sdk,32)},
+    {key:"schema",value:safe(report.schema_version,40)},
+    {key:"analysis",value:safe(report.assessment_type,70)},
+    {key:"sha256",value:safe(report.target.sha256,70)},
+    {kind:"comment",value:"// DETECTOR OBSERVATIONS"},
+    {key:"findings.total",value:String(findings.length)},
+  ];
+  for (const severity of SEVERITIES) {
+    rows.push({key:"findings."+severity.toLowerCase(),
+      value:String(findings.filter(item=>item.severity===severity).length)});
+  }
+  if (report.surface) {
+    const surface = report.surface;
+    rows.push({kind:"comment",value:"// MANIFEST ATTACK SURFACE"},
+      {key:"components",value:String(surface.components.length)},
+      {key:"nodes",value:String(surface.nodes.length)},
+      {key:"edges",value:String(surface.edges.length)},
+      {key:"graph_truncated",value:String(Boolean(surface.truncated))});
+  }
+  if (selectedComponent) {
+    rows.push({kind:"comment",value:"// SELECTED COMPONENT"},
+      {key:"component",value:safe(selectedComponent.name,200)},
+      {key:"exported",value:String(selectedComponent.exported)},
+      {key:"enabled",value:String(selectedComponent.enabled)});
+  } else if (selected) {
+    rows.push({kind:"comment",value:"// SELECTED OBSERVATION"},
+      {key:"rule_id",value:selected.rule},
+      {key:"severity",value:selected.severity},
+      {key:"validation",value:selected.state || "requires_manual_validation"});
+  }
+  for (const row of rows) {
+    const line = document.createElement("div");
+    if (row.kind==="comment") {
+      line.append(textElement("span",row.value,"summary-comment"));
+    } else {
+      line.append(textElement("span",row.key+" = ","summary-key"),
+        textElement("span",row.value || "—",
+          /truncated|validation/.test(row.key) && row.value !== "false" ?
+            "summary-warn" : "summary-value"));
+    }
+    container.append(line);
+  }
+}
+
 function renderSource() {
+  renderSecondaryEditor();
   const view = $("source-view");
   view.replaceChildren();
   const filename = sourceView === "manifest" ? "manifest.json" :
